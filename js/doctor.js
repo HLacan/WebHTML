@@ -21,20 +21,20 @@ function pdfDoctores() {
                             'contrasena': doctor.contrasena,
                             'especialidad': doctor.especialidad,
                             'telefono': doctor.telefono
-                        }        
+                        }
                         lista.push(dataDoctor)
                     }
                     console.log("mi lista" + JSON.stringify(lista))
 
                     const header = [['Nombre', 'Apellido', 'Fecha', 'Sexo', 'Usuario', 'Contrasena', 'Especialidad', 'Telefono']];
                     const rows = [];
-                
+
                     lista.forEach(elm => {
                         const temp = [elm.nombre, elm.apellido, elm.fecha, elm.sexo, elm.usuario, elm.contrasena, elm.especialidad, elm.telefono];
                         rows.push(temp);
                     });
 
-                    pdf.text('Listado de Doctores', 80,10,)            
+                    pdf.text('Listado de Doctores', 80, 10,)
                     pdf.autoTable({
                         head: header,
                         body: rows,
@@ -61,8 +61,9 @@ function pdfDoctores() {
 
 
 
-   
+
 }
+
 function getDoctores() {
     var listaDoctor = []
     var htmlTable = document.getElementById("cuerpoTabla")
@@ -100,5 +101,31 @@ function getDoctores() {
             console.log('Fetch Error :-S', err);
         });
 }
+
+function addDoctor() {
+    fetch('http://127.0.0.1:5000/api/addDoctor', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'nombre': 'Pepe',
+            'apellido': 'Gonzales',
+            'fecha': '21/04/2021',
+            'sexo': 'M',
+            'usuario': 'El Pepe',
+            'contrasena': 'pepiango',
+            'especialidad': 'cabeza',
+            'telefono': '123456789'
+        })
+    })
+
+        .then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log(jsonResponse);
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
 getDoctores()
 
