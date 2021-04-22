@@ -75,6 +75,7 @@ function getDoctores() {
             } else {
                 response.json().then(function (data) {
                     console.log(data);
+                    document.getElementById("cuerpoTabla").innerHTML = "";
                     for (var i = 0; i < data.length; i++) {
                         var doctor = data[i]
                         var filaDoctor = [doctor.nombre, doctor.apellido, doctor.fecha, doctor.sexo, doctor.usuario, doctor.contrasena, doctor.especialidad, doctor.telefono]
@@ -92,7 +93,7 @@ function getDoctores() {
 
                         listaDoctor.push(filaDoctor)
                     }
-                    console.log(listaDoctor)
+                    //console.log(listaDoctor)
                 });
             }
         }
@@ -102,30 +103,80 @@ function getDoctores() {
         });
 }
 
-function addDoctor() {
-    fetch('http://127.0.0.1:5000/api/addDoctor', {
-        method: 'post',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-            'nombre': 'Pepe',
-            'apellido': 'Gonzales',
-            'fecha': '21/04/2021',
-            'sexo': 'M',
-            'usuario': 'El Pepe',
-            'contrasena': 'pepiango',
-            'especialidad': 'cabeza',
-            'telefono': '123456789'
-        })
-    })
+function cargarDoctores() {
+    var input = document.getElementById('fileinput');
+    var file = input.files[0];
+    console.log(file)
 
-        .then(response => {
-            return response.json();
-        }).then(jsonResponse => {
-            console.log(jsonResponse);
-        }).catch(error => {
-            console.log(error)
+    var reader = new FileReader();
+
+    reader.onload = function (progressEvent) {
+        var linea = this.result.split('\n');
+        for (var i = 1; i < linea.length - 1; i++) {
+            info = linea[i].split(',');
+
+            fetch('http://127.0.0.1:5000/api/addDoctor', {
+                method: 'post',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({
+                    'nombre': info[0],
+                    'apellido': info[1],
+                    'fecha': info[2],
+                    'sexo': info[3],
+                    'usuario': info[4],
+                    'contrasena': info[5],
+                    'especialidad': info[6],
+                    'telefono': info[7]
+                })
+            })
+                .then(response => {
+                    return response.json();
+                    
+                })
+                .then(jsonResponse => {
+                    console.log(jsonResponse);
+                    getDoctores();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+    }
+    reader.readAsText(file);
+    
+
+    /*
+        fetch('http://127.0.0.1:5000/api/addDoctor', {
+            method: 'post',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+                'nombre': 'Pepe',
+                'apellido': 'Gonzales',
+                'fecha': '21/04/2021',
+                'sexo': 'M',
+                'usuario': 'El Pepe',
+                'contrasena': 'pepiango',
+                'especialidad': 'cabeza',
+                'telefono': '123456789'
+            })
         })
+            .then(response => {
+                return response.json();
+            })
+            .then(jsonResponse => {
+                console.log(jsonResponse);
+                getDoctores();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+     */
 }
+
+function handleFileSelect() {
+
+}
+
 
 getDoctores()
 
