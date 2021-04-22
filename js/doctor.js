@@ -68,115 +68,107 @@ function getDoctores() {
     var listaDoctor = []
     var htmlTable = document.getElementById("cuerpoTabla")
     fetch('http://127.0.0.1:5000/api/getDoctores')
+        .then((resp) => resp.json())
         .then(function (response) {
-            if (response.status !== 200) {
-                console.log('hubo un problema' + response.status);
-                return;
-            } else {
-                response.json().then(function (data) {
-                    console.log(data);
-                    document.getElementById("cuerpoTabla").innerHTML = "";
-                    for (var i = 0; i < data.length; i++) {
-                        var doctor = data[i]
-                        var filaDoctor = [doctor.nombre, doctor.apellido, doctor.fecha, doctor.sexo, doctor.usuario, doctor.contrasena, doctor.especialidad, doctor.telefono]
-                        htmlTable.innerHTML += `
-                        <tr>
-                            <td>${doctor.nombre}</td>
-                            <td>${doctor.apellido}</td>
-                            <td>${doctor.fecha}</td>
-                            <td>${doctor.sexo}</td>
-                            <td>${doctor.usuario}</td>
-                            <td>${doctor.contrasena}</td>
-                            <td>${doctor.especialidad}</td>
-                            <td>${doctor.telefono}</td>
-                        </tr>`
-
-                        listaDoctor.push(filaDoctor)
-                    }
-                    //console.log(listaDoctor)
-                });
+            console.log(response)
+            document.getElementById("cuerpoTabla").innerHTML = "";
+            for (var i = 0; i < response.length; i++) {
+                var doctor = response[i]
+                var filaDoctor = [doctor.nombre, doctor.apellido, doctor.fecha, doctor.sexo, doctor.usuario, doctor.contrasena, doctor.especialidad, doctor.telefono]
+                var user = JSON.stringify(doctor.usuario)
+                htmlTable.innerHTML += `
+                <tr>
+                    <td>${doctor.nombre}</td>
+                    <td>${doctor.apellido}</td>
+                    <td>${doctor.fecha}</td>
+                    <td>${doctor.sexo}</td>
+                    <td>${doctor.usuario}</td>
+                    <td>${doctor.contrasena}</td>
+                    <td>${doctor.especialidad}</td>
+                    <td>${doctor.telefono}</td>
+                    <td>
+                        <button onclick="getDoctor('${doctor.usuario}')" type="submit">Editar</button>
+                    </td>
+                </tr>`
+                listaDoctor.push(filaDoctor)
             }
-        }
-        )
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err);
+        })
+        .catch(function (error) {
+            console.log(error);
         });
 }
 
 function cargarDoctores() {
     var input = document.getElementById('fileinput');
-    var file = input.files[0];
-    console.log(file)
+    if (!input.files[0]) {
+        Toasty('noArchivo')
+    } else {
+        var file = input.files[0];
+        console.log(file)
 
-    var reader = new FileReader();
+        var reader = new FileReader();
 
-    reader.onload = function (progressEvent) {
-        var linea = this.result.split('\n');
-        for (var i = 1; i < linea.length - 1; i++) {
-            info = linea[i].split(',');
+        reader.onload = function (progressEvent) {
+            var linea = this.result.split('\n');
+            for (var i = 1; i < linea.length - 1; i++) {
+                info = linea[i].split(',');
 
-            fetch('http://127.0.0.1:5000/api/addDoctor', {
-                method: 'post',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({
-                    'nombre': info[0],
-                    'apellido': info[1],
-                    'fecha': info[2],
-                    'sexo': info[3],
-                    'usuario': info[4],
-                    'contrasena': info[5],
-                    'especialidad': info[6],
-                    'telefono': info[7]
+                fetch('http://127.0.0.1:5000/api/addDoctor', {
+                    method: 'post',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({
+                        'nombre': info[0],
+                        'apellido': info[1],
+                        'fecha': info[2],
+                        'sexo': info[3],
+                        'usuario': info[4],
+                        'contrasena': info[5],
+                        'especialidad': info[6],
+                        'telefono': info[7]
+                    })
                 })
-            })
-                .then(response => {
-                    return response.json();
-                    
-                })
-                .then(jsonResponse => {
-                    console.log(jsonResponse);
-                    getDoctores();
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                    .then(response => {
+                        return response.json();
+
+                    })
+                    .then(jsonResponse => {
+                        console.log(jsonResponse);
+                        document.getElementById('fileinput').value = "";
+                        if (jsonResponse['res'] == 'Usuario ya repetido') {
+                            Toasty('repetido')
+                        }
+
+
+                        getDoctores();
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         }
+        reader.readAsText(file);
+
     }
-    reader.readAsText(file);
-    
+}
 
-    /*
-        fetch('http://127.0.0.1:5000/api/addDoctor', {
-            method: 'post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({
-                'nombre': 'Pepe',
-                'apellido': 'Gonzales',
-                'fecha': '21/04/2021',
-                'sexo': 'M',
-                'usuario': 'El Pepe',
-                'contrasena': 'pepiango',
-                'especialidad': 'cabeza',
-                'telefono': '123456789'
-            })
+function getDoctor(usuario) {
+    fetch(`http://127.0.0.1:5000/api/getDoctor/${usuario}`)
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
         })
-            .then(response => {
-                return response.json();
-            })
-            .then(jsonResponse => {
-                console.log(jsonResponse);
-                getDoctores();
-            })
-            .catch(error => {
-                console.log(error)
-            })
-     */
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
-function handleFileSelect() {
-
+function updateDoctor(usuario) {
+    console.log(usuario)
 }
 
+function deleteDoctor(usuario) {
+    console.log(usuario)
+}
 
 getDoctores()
 
