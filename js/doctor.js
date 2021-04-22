@@ -87,7 +87,7 @@ function getDoctores() {
                     <td>${doctor.especialidad}</td>
                     <td>${doctor.telefono}</td>
                     <td>
-                        <button onclick="getDoctor('${doctor.usuario}')" type="submit">Editar</button>
+                        <button data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${doctor.usuario}')" type="submit">Editar</button>
                     </td>
                 </tr>`
                 listaDoctor.push(filaDoctor)
