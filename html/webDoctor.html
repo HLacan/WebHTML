@@ -17,7 +17,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="../js/jspdf.plugin.autotable.js"></script>
         <script src="../js/toast.js"></script>
-    <title>Document</title>
+        <link rel="stylesheet" href="../css/webDoctor.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>    <title>Document</title>
 </head>
 
 <body>
@@ -60,7 +61,7 @@
                 <div class="list-group">
                     <div class="list-group-item">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Gestion de Enfermeras</h5>
+                        <h5 class="mb-1">Generar Reporte PDF</h5>
                         </div>
                         <br>
                         <button class="btn btn-primary" type="submit" onclick="pdfDoctores()">Gestionar</button>                 
@@ -133,42 +134,66 @@
                             </div>
                             <div class="mb-3">
                                 <label for="fecha" class="form-label">Fecha de nacimiento</label>
-                                <input type="text" class="form-control" id="fecha">
+                                <input type="date" class="form-control" id="fecha">
                             </div>
                             <div class="mb-3">
                                 <label for="genero" class="form-label">Genero</label>
-                                <input type="text" class="form-control" id="genero">
+                                <select id="genero" class="form-select" aria-label="Default select example">
+                                    <option>M</option>
+                                    <option>F</option>
+                                  </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="usuario" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" id="usuario" maxlength="8" autocomplete="off">
+                                <input type="text" class="form-control" id="usuario">
                                     
                             </div>
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">contraseña</label>
-                                <input type="email" class="form-control" id="contrasena">
+                                <input type="email" class="form-control" id="contrasena" maxlength="8" autocomplete="off">
                             </div>
                             <div class="mb-3">
                                 <label for="especialidad" class="form-label">Especialidad</label>
                                 <input type="email" class="form-control" id="especialidad">
                             </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Telefono</label>
+                                <input type="email" class="form-control" id="telefono">
+                            </div>
                             <br>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                <div id="footerModal" class="modal-footer">
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL ELIMINAR -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Eliminar Doctor</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Desea Eliminar este Doctor?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!-- HTML NOTIFICACION -->
     <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
-        style="position: absolute; top: 20px; right: 20px;">
+        style="position: absolute; bottom: 20px; right: 20px;">
         <div class="toast-header">
             <i class="fa fa-info" style="padding: 5px;"></i>
             <strong class="me-auto"> Alerta</strong>
