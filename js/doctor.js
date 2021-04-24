@@ -16,7 +16,7 @@ function pdfDoctores() {
                             'nombre': doctor.nombre,
                             'apellido': doctor.apellido,
                             'fecha': doctor.fecha,
-                            'sexo': doctor.sexo,
+                            'genero': doctor.genero,
                             'usuario': doctor.usuario,
                             'contrasena': doctor.contrasena,
                             'especialidad': doctor.especialidad,
@@ -26,11 +26,11 @@ function pdfDoctores() {
                     }
                     console.log("mi lista" + JSON.stringify(lista))
 
-                    const header = [['Nombre', 'Apellido', 'Fecha', 'Sexo', 'Usuario', 'Contrasena', 'Especialidad', 'Telefono']];
+                    const header = [['Nombre', 'Apellido', 'Fecha', 'Genero', 'Usuario', 'Contrasena', 'Especialidad', 'Telefono']];
                     const rows = [];
 
                     lista.forEach(elm => {
-                        const temp = [elm.nombre, elm.apellido, elm.fecha, elm.sexo, elm.usuario, elm.contrasena, elm.especialidad, elm.telefono];
+                        const temp = [elm.nombre, elm.apellido, elm.fecha, elm.genero, elm.usuario, elm.contrasena, elm.especialidad, elm.telefono];
                         rows.push(temp);
                     });
 
@@ -40,6 +40,7 @@ function pdfDoctores() {
                         body: rows,
                     });
                     pdf.save('ListadoDoctores.pdf');
+                    Toasty('reporte')
                 });
             }
         }
@@ -74,20 +75,21 @@ function getDoctores() {
             document.getElementById("cuerpoTabla").innerHTML = "";
             for (var i = 0; i < response.length; i++) {
                 var doctor = response[i]
-                var filaDoctor = [doctor.nombre, doctor.apellido, doctor.fecha, doctor.sexo, doctor.usuario, doctor.contrasena, doctor.especialidad, doctor.telefono]
+                var filaDoctor = [doctor.nombre, doctor.apellido, doctor.fecha, doctor.genero, doctor.usuario, doctor.contrasena, doctor.especialidad, doctor.telefono]
                 var user = JSON.stringify(doctor.usuario)
                 htmlTable.innerHTML += `
                 <tr>
                     <td>${doctor.nombre}</td>
                     <td>${doctor.apellido}</td>
                     <td>${doctor.fecha}</td>
-                    <td>${doctor.sexo}</td>
+                    <td>${doctor.genero}</td>
                     <td>${doctor.usuario}</td>
                     <td>${doctor.contrasena}</td>
                     <td>${doctor.especialidad}</td>
                     <td>${doctor.telefono}</td>
                     <td>
-                        <button data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${doctor.usuario}')" type="submit">Editar</button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:20px; color:white;"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="deleteDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`
                 listaDoctor.push(filaDoctor)
@@ -120,7 +122,7 @@ function cargarDoctores() {
                         'nombre': info[0],
                         'apellido': info[1],
                         'fecha': info[2],
-                        'sexo': info[3],
+                        'genero': info[3],
                         'usuario': info[4],
                         'contrasena': info[5],
                         'especialidad': info[6],
@@ -151,23 +153,103 @@ function cargarDoctores() {
     }
 }
 
-function getDoctor(usuario) {
+function getDoctor(usuario) {   
+    selectIndice = 0
     fetch(`http://127.0.0.1:5000/api/getDoctor/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
+            if (response.genero == 'M'){
+                selectIndice = 0
+            }else if (response.genero == 'F'){
+                selectIndice = 1
+            }
+
             console.log(response)
+            var fecha = (response.fecha)
+            var newFecha = fecha.split('/')
+            document.getElementById('nombre').value = response.nombre
+            document.getElementById('apellido').value = response.apellido
+            document.getElementById('fecha').value = newFecha[2] + '-' + newFecha[1] + '-' + newFecha[0]
+            document.getElementById('genero').selectedIndex = selectIndice
+            document.getElementById('usuario').value = response.usuario
+            document.getElementById('contrasena').value = response.contrasena
+            document.getElementById('especialidad').value = response.especialidad
+            document.getElementById('telefono').value = response.telefono
+            document.getElementById('footerModal').innerHTML = `
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Understood</button>`
         })
         .catch(function (error) {
             console.log(error);
         });
 }
 
-function updateDoctor(usuario) {
-    console.log(usuario)
+function validarDoctor(oldUsuario) {
+    newUsuario = document.getElementById('usuario').value
+    if(oldUsuario != newUsuario){
+        fetch(`http://127.0.0.1:5000/api/getUpdateDoctor/${newUsuario}`)
+        .then((resp) => resp.json())
+        .then(function (response) {            
+            if(response['res'] == 'no existe'){
+                updateDoctor(newUsuario)
+                cerrarModal()
+                Toasty('modificar')
+            } else {
+                console.log('el nombre de usuario le pertenece a otra persona')
+                Toasty('existe')
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    } else if(oldUsuario == newUsuario){
+        console.log('modificando el mismo usuario')
+        updateDoctor(oldUsuario)
+        cerrarModal()
+        Toasty('modificar')
+    }
+}
+
+function updateDoctor(usuario){
+    nombre = document.getElementById('nombre').value
+    apellido = document.getElementById('apellido').value
+    oldFecha = document.getElementById('fecha').value
+    genero = document.getElementById('genero').value
+    contrasena = document.getElementById('contrasena').value
+    especialidad = document.getElementById('especialidad').value
+    telefono = document.getElementById('telefono').value
+    splittedFecha = oldFecha.split('-')
+    newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
+
+    fetch('http://127.0.0.1:5000/api/updateDoctor', {
+                    method: 'post',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({
+                        'nombre': nombre,
+                        'apellido': apellido,
+                        'fecha': newFecha,
+                        'genero': genero,
+                        'usuario': usuario,
+                        'contrasena': contrasena,
+                        'especialidad': especialidad,
+                        'telefono': telefono
+                    })
+                }).then(response => {
+                        return response.json();
+                }).then(jsonResponse => {
+                    console.log(jsonResponse)
+                    getDoctores()
+                }).catch(error => {
+                    console.log(error)
+                })
 }
 
 function deleteDoctor(usuario) {
     console.log(usuario)
+}
+
+function cerrarModal(){
+    $('#modificarDoctor').modal('hide');
 }
 
 getDoctores()
