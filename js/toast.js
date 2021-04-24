@@ -6,16 +6,19 @@ var option =
 };
 
 function Toasty(estado) {
+    toast = document.getElementById('toastBody')
     if(estado == 'repetido'){
-        document.getElementById('toastBody').innerHTML = 'Uno o varios Registros Repetidos'
+        toast.innerHTML = 'Uno o varios Registros Repetidos'
     } else if(estado == 'noArchivo'){
-        document.getElementById('toastBody').innerHTML = 'No ay archivo que cargar'
+        toast.innerHTML = 'No ay archivo que cargar'
     } else if(estado == 'modificar'){
-        document.getElementById('toastBody').innerHTML = 'Registro Modificado'
+        toast.innerHTML = 'Registro Modificado'
     } else if(estado == 'eliminar'){
-        document.getElementById('toastBody').innerHTML = 'Registro Eliminado'
+        toast.innerHTML = 'Registro Eliminado'
     } else if(estado == 'reporte'){
-        document.getElementById('toastBody').innerHTML = 'Reporte Generado!'
+        toast.innerHTML = 'Reporte Generado!'
+    } else if(estado == 'existe'){
+        toast.innerHTML = 'El usuario ya existe!'
     }
 
 
