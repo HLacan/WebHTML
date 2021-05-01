@@ -22,6 +22,7 @@ function login() {
                 document.location.href = "../html/inicioAdmin.html"
             } else if (jsonResponse['res'] == 'doctor'){
                 console.log('amonos a doctor page')
+                document.location.href = '../html/inicioDoctor.html'
             }
         }).catch(error => {
             console.log(error)
