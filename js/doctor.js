@@ -88,8 +88,8 @@ function getDoctores() {
                     <td>${doctor.especialidad}</td>
                     <td>${doctor.telefono}</td>
                     <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:20px; color:white;"></i></button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="deleteDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="getEliminarDoctor('${doctor.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`
                 listaDoctor.push(filaDoctor)
@@ -176,12 +176,18 @@ function getDoctor(usuario) {
             document.getElementById('especialidad').value = response.especialidad
             document.getElementById('telefono').value = response.telefono
             document.getElementById('footerModal').innerHTML = `
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Understood</button>`
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Modificar</button>`
         })
         .catch(function (error) {
             console.log(error);
         });
+}
+
+function getEliminarDoctor(usuario){
+    document.getElementById('eliminarFooter').innerHTML  = `
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-primary" onclick="deleteDoctor('${usuario}')">Eliminar</button>`
 }
 
 function validarDoctor(oldUsuario) {
@@ -192,7 +198,7 @@ function validarDoctor(oldUsuario) {
         .then(function (response) {            
             if(response['res'] == 'no existe'){
                 updateDoctor(newUsuario)
-                cerrarModal()
+                cerrarModal('#modificarDoctor')
                 Toasty('modificar')
             } else {
                 console.log('el nombre de usuario le pertenece a otra persona')
@@ -205,7 +211,7 @@ function validarDoctor(oldUsuario) {
     } else if(oldUsuario == newUsuario){
         console.log('modificando el mismo usuario')
         updateDoctor(oldUsuario)
-        cerrarModal()
+        cerrarModal('#modificarDoctor')
         Toasty('modificar')
     }
 }
@@ -245,11 +251,22 @@ function updateDoctor(usuario){
 }
 
 function deleteDoctor(usuario) {
-    console.log(usuario)
+    fetch(`http://127.0.0.1:5000/api/deleteDoctor/${usuario}`)
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            cerrarModal('#eliminarModal')
+            Toasty('eliminar')
+            getDoctores()
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
-function cerrarModal(){
-    $('#modificarDoctor').modal('hide');
+function cerrarModal(modal){
+    console.log(modal)
+    $(modal).modal('hide');
 }
 
 getDoctores()
