@@ -1,10 +1,12 @@
+
 function login() {
+    data = 'lol'
     usuario = document.getElementById('usuario').value
     contrasena = document.getElementById('contrasena').value
 
     if (usuario.trim() != "" || contrasena.trim() != ""){
-        console.log(usuario)
-        console.log(contrasena)
+        //console.log(usuario)
+        //console.log(contrasena)
     
         fetch('http://127.0.0.1:5000/api/login', {
             method: 'post',
@@ -17,29 +19,33 @@ function login() {
             return response.json();
         }).then(jsonResponse => {
             console.log(jsonResponse);
-            if (jsonResponse['res'] == 'admin'){
+            if (jsonResponse['tipo'] == 'admin'){
                 console.log('amonos a admin page')
-                console.log(jsonResponse['nombre'])
+                sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = "../html/inicioAdmin.html"
-            } else if (jsonResponse['res'] == 'doctor'){
+
+            } else if (jsonResponse['tipo'] == 'doctor'){
                 console.log('amonos a doctor page')
+                sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = '../html/inicioDoctor.html'
-            } else if (jsonResponse['res'] == 'enfermera'){
+
+            } else if (jsonResponse['tipo'] == 'enfermera'){
                 console.log('amonos a enfermera page')
+                sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = '../html/inicioEnfermera.html'
-            } else if (jsonResponse['res'] == 'paciente'){
+
+            } else if (jsonResponse['tipo'] == 'paciente'){
                 console.log('amonos a paciente page')
+                sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = '../html/inicioPaciente.html'
+
+            } else if (jsonResponse['res'] == 'no existe') {
+                console.log('no existe')
             }
         }).catch(error => {
             console.log(error)
         })
     }
-
-
 }
 
-function datosUsuario(){
-    console.log(tipoUsuario)
-    console.log(loginUsuario)
-}
+
