@@ -74,6 +74,7 @@
         </div>
     </div>
 
+    <!--TABLA-->
     <div class="card" style="margin: 20px;">
         <div class="card-header text-center">
             <h4>Listado de Doctores</h4>
@@ -99,7 +100,7 @@
         </div>
     </div>
 
-    <!-- HTML MODAL MODIFICAR -->
+    <!--MODAL MODIFICAR -->
     <div class="modal fade" id="modificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -156,7 +157,24 @@
         </div>
     </div>
 
-    <!-- HTML TOAST -->
+    <!--MODAL ELIMINAR -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Desea eliminar el registro?
+                </div>
+                <div id="eliminarFooter" class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--TOAST -->
     <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
         style="position: absolute; bottom: 20px; right: 20px;">
         <div class="toast-header">
