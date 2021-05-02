@@ -19,10 +19,17 @@ function login() {
             console.log(jsonResponse);
             if (jsonResponse['res'] == 'admin'){
                 console.log('amonos a admin page')
+                console.log(jsonResponse['nombre'])
                 document.location.href = "../html/inicioAdmin.html"
             } else if (jsonResponse['res'] == 'doctor'){
                 console.log('amonos a doctor page')
                 document.location.href = '../html/inicioDoctor.html'
+            } else if (jsonResponse['res'] == 'enfermera'){
+                console.log('amonos a enfermera page')
+                document.location.href = '../html/inicioEnfermera.html'
+            } else if (jsonResponse['res'] == 'paciente'){
+                console.log('amonos a paciente page')
+                document.location.href = '../html/inicioPaciente.html'
             }
         }).catch(error => {
             console.log(error)
@@ -30,4 +37,9 @@ function login() {
     }
 
 
+}
+
+function datosUsuario(){
+    console.log(tipoUsuario)
+    console.log(loginUsuario)
 }
