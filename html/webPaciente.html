@@ -44,6 +44,37 @@
         </div>
     </nav>
 
+    <!-- OPCIONES -->
+    <div class="row" style="margin: 10px;">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Cargar CSV</h5>
+                        </div>
+                        <br>
+                        <input type="file" id="fileinput" />
+                        <button class="btn btn-success" onclick="cargarPacientes()" type="submit">Cargar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Generar Reporte PDF</h5>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary" type="submit" onclick="pdfEnfermeras()">Generar Reporte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--TABLA-->
     <div class="card" style="margin: 20px;">
         <div class="card-header text-center">
@@ -69,6 +100,8 @@
             </table>
         </div>
     </div>
+
+    <script src="../js/paciente.js"></script>
 </body>
 
 </html>
