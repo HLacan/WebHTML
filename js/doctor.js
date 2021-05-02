@@ -128,39 +128,33 @@ function cargarDoctores() {
                         'especialidad': info[6],
                         'telefono': info[7]
                     })
+                }).then(response => {
+                    return response.json();
+
+                }).then(jsonResponse => {
+                    console.log(jsonResponse);
+                    document.getElementById('fileinput').value = "";
+                    if (jsonResponse['res'] == 'Usuario ya repetido') {
+                        Toasty('repetido')
+                    }
+                    getDoctores();
+                }).catch(error => {
+                    console.log(error)
                 })
-                    .then(response => {
-                        return response.json();
-
-                    })
-                    .then(jsonResponse => {
-                        console.log(jsonResponse);
-                        document.getElementById('fileinput').value = "";
-                        if (jsonResponse['res'] == 'Usuario ya repetido') {
-                            Toasty('repetido')
-                        }
-
-
-                        getDoctores();
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
             }
         }
         reader.readAsText(file);
-
     }
 }
 
-function getDoctor(usuario) {   
+function getDoctor(usuario) {
     selectIndice = 0
     fetch(`http://127.0.0.1:5000/api/getDoctor/${usuario}`)
-        .then((resp) => resp.json())
-        .then(function (response) {
-            if (response.genero == 'M'){
+        .then((resp) => resp.json(
+        )).then(function (response) {
+            if (response.genero == 'M') {
                 selectIndice = 0
-            }else if (response.genero == 'F'){
+            } else if (response.genero == 'F') {
                 selectIndice = 1
             }
 
@@ -178,37 +172,36 @@ function getDoctor(usuario) {
             document.getElementById('footerModal').innerHTML = `
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Modificar</button>`
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
             console.log(error);
         });
 }
 
-function getEliminarDoctor(usuario){
-    document.getElementById('eliminarFooter').innerHTML  = `
+function getEliminarDoctor(usuario) {
+    document.getElementById('eliminarFooter').innerHTML = `
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
     <button type="button" class="btn btn-primary" onclick="deleteDoctor('${usuario}')">Eliminar</button>`
 }
 
 function validarDoctor(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
-    if(oldUsuario != newUsuario){
+    if (oldUsuario != newUsuario) {
         fetch(`http://127.0.0.1:5000/api/getUpdateDoctor/${newUsuario}`)
-        .then((resp) => resp.json())
-        .then(function (response) {            
-            if(response['res'] == 'no existe'){
-                updateDoctor(newUsuario)
-                cerrarModal('#modificarDoctor')
-                Toasty('modificar')
-            } else {
-                console.log('el nombre de usuario le pertenece a otra persona')
-                Toasty('existe')
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    } else if(oldUsuario == newUsuario){
+            .then((resp) => resp.json())
+            .then(function (response) {
+                if (response['res'] == 'no existe') {
+                    updateDoctor(newUsuario)
+                    cerrarModal('#modificarDoctor')
+                    Toasty('modificar')
+                } else {
+                    console.log('el nombre de usuario le pertenece a otra persona')
+                    Toasty('existe')
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    } else if (oldUsuario == newUsuario) {
         console.log('modificando el mismo usuario')
         updateDoctor(oldUsuario)
         cerrarModal('#modificarDoctor')
@@ -216,7 +209,7 @@ function validarDoctor(oldUsuario) {
     }
 }
 
-function updateDoctor(usuario){
+function updateDoctor(usuario) {
     nombre = document.getElementById('nombre').value
     apellido = document.getElementById('apellido').value
     oldFecha = document.getElementById('fecha').value
@@ -228,26 +221,26 @@ function updateDoctor(usuario){
     newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
     fetch('http://127.0.0.1:5000/api/updateDoctor', {
-                    method: 'post',
-                    headers: { 'Content-type': 'application/json' },
-                    body: JSON.stringify({
-                        'nombre': nombre,
-                        'apellido': apellido,
-                        'fecha': newFecha,
-                        'genero': genero,
-                        'usuario': usuario,
-                        'contrasena': contrasena,
-                        'especialidad': especialidad,
-                        'telefono': telefono
-                    })
-                }).then(response => {
-                        return response.json();
-                }).then(jsonResponse => {
-                    console.log(jsonResponse)
-                    getDoctores()
-                }).catch(error => {
-                    console.log(error)
-                })
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'nombre': nombre,
+            'apellido': apellido,
+            'fecha': newFecha,
+            'genero': genero,
+            'usuario': usuario,
+            'contrasena': contrasena,
+            'especialidad': especialidad,
+            'telefono': telefono
+        })
+    }).then(response => {
+        return response.json();
+    }).then(jsonResponse => {
+        console.log(jsonResponse)
+        getDoctores()
+    }).catch(error => {
+        console.log(error)
+    })
 }
 
 function deleteDoctor(usuario) {
@@ -264,7 +257,7 @@ function deleteDoctor(usuario) {
         });
 }
 
-function cerrarModal(modal){
+function cerrarModal(modal) {
     console.log(modal)
     $(modal).modal('hide');
 }
