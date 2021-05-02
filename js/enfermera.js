@@ -19,7 +19,7 @@ function getEnfermeras() {
                     <td>${enfermera.contrasena}</td>
                     <td>${enfermera.telefono}</td>
                     <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarDoctor" onclick="getDoctor('${enfermera.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificar" onclick="getEnfermera('${enfermera.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="getEliminarDoctor('${enfermera.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`
@@ -141,6 +141,35 @@ function pdfEnfermeras() {
 
 
 
+}
+
+function getEnfermera(usuario) {
+    selectIndice = 0
+    fetch(`http://127.0.0.1:5000/api/getEnfermera/${usuario}`)
+        .then((resp) => resp.json(
+        )).then(function (response) {
+            if (response.genero == 'M') {
+                selectIndice = 0
+            } else if (response.genero == 'F') {
+                selectIndice = 1
+            }
+
+            console.log(response)
+            var fecha = (response.fecha)
+            var newFecha = fecha.split('/')
+            document.getElementById('nombre').value = response.nombre
+            document.getElementById('apellido').value = response.apellido
+            document.getElementById('fecha').value = newFecha[2] + '-' + newFecha[1] + '-' + newFecha[0]
+            document.getElementById('genero').selectedIndex = selectIndice
+            document.getElementById('usuario').value = response.usuario
+            document.getElementById('contrasena').value = response.contrasena
+            document.getElementById('telefono').value = response.telefono
+            document.getElementById('footerModal').innerHTML = `
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Modificar</button>`
+        }).catch(function (error) {
+            console.log(error);
+        });
 }
 
 getEnfermeras()
