@@ -77,4 +77,70 @@ function cargarPacientes() {
     }
 }
 
+function pdfPacientes() {
+    window.jsPDF = window.jspdf.jsPDF
+    const pdf = new jsPDF();
+
+    fetch('http://127.0.0.1:5000/api/getPacientes')
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('hubo un problema' + response.status);
+                return;
+            } else {
+                response.json().then(function (data) {
+                    const lista = []
+                    for (var i = 0; i < data.length; i++) {
+                        var paciente = data[i]
+                        var dataPaciente = {
+                            'nombre': paciente.nombre,
+                            'apellido': paciente.apellido,
+                            'fecha': paciente.fecha,
+                            'genero': paciente.genero,
+                            'usuario': paciente.usuario,
+                            'contrasena': paciente.contrasena,
+                            'telefono': paciente.telefono
+                        }
+                        lista.push(dataPaciente)
+                    }
+                    console.log("mi lista" + JSON.stringify(lista))
+
+                    const columnas = [['Nombre', 'Apellido', 'Fecha', 'Genero', 'Usuario', 'Contrasena', 'Telefono']];
+                    const filas = [];
+
+                    lista.forEach(i => {
+                        const temp = [i.nombre, i.apellido, i.fecha, i.genero, i.usuario, i.contrasena, i.telefono];
+                        filas.push(temp);
+                    });
+
+                    pdf.text('Listado de Pacientes', 80, 10,)
+                    pdf.autoTable({
+                        head: columnas,
+                        body: filas,
+                    });
+                    pdf.save('Listado_Pacientes.pdf');
+                    Toasty('reporte')
+                });
+            }
+        }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :(', err);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
 getPacientes()
