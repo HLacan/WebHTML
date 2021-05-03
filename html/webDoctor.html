@@ -13,12 +13,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
         integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
         crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="../js/jspdf.plugin.autotable.js"></script>
-        <script src="../js/toast.js"></script>
-        <link rel="stylesheet" href="../css/webDoctor.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../js/jspdf.plugin.autotable.js"></script>
+    <script src="../js/toast.js"></script>
+    <link rel="stylesheet" href="../css/webAdmin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous"></script>
+    <title>Document</title>
 </head>
 
 <body>
@@ -40,7 +43,7 @@
         </div>
     </nav>
 
-
+    <!-- OPCIONES -->
     <div class="row" style="margin: 10px;">
         <div class="col-md-6">
             <div class="mb-3">
@@ -50,7 +53,7 @@
                             <h5 class="mb-1">Cargar CSV de Doctores</h5>
                         </div>
                         <br>
-                        <input type="file" id="fileinput"/>
+                        <input type="file" id="fileinput" />
                         <button class="btn btn-success" onclick="cargarDoctores()" type="submit">Gestionar</button>
                     </div>
                 </div>
@@ -61,16 +64,17 @@
                 <div class="list-group">
                     <div class="list-group-item">
                         <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Generar Reporte PDF</h5>
+                            <h5 class="mb-1">Generar Reporte PDF</h5>
                         </div>
                         <br>
-                        <button class="btn btn-primary" type="submit" onclick="pdfDoctores()">Gestionar</button>                 
+                        <button class="btn btn-primary" type="submit" onclick="pdfDoctores()">Gestionar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- TABLA DE REGISTROS -->
     <div class="card" style="margin: 20px;">
         <div class="card-header text-center">
             <h4>Listado de Doctores</h4>
@@ -97,28 +101,13 @@
         </div>
     </div>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
-    
-
-    <!-- HTML MODAL MODIFICAR -->
+    <!-- MODAL MODIFICAR -->
     <div class="modal fade" id="modificarDoctor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modificar Datos del Paciente</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Modificar Datos</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -141,18 +130,19 @@
                                 <select id="genero" class="form-select" aria-label="Default select example">
                                     <option>M</option>
                                     <option>F</option>
-                                  </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="usuario" class="form-label">Usuario</label>
                                 <input type="text" class="form-control" id="usuario">
-                                    
+
                             </div>
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">contraseña</label>
-                                <input type="email" class="form-control" id="contrasena" maxlength="8" autocomplete="off">
+                                <input type="email" class="form-control" id="contrasena" maxlength="8"
+                                    autocomplete="off">
                             </div>
                             <div class="mb-3">
                                 <label for="especialidad" class="form-label">Especialidad</label>
@@ -175,23 +165,21 @@
     <!-- MODAL ELIMINAR -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Eliminar Doctor</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Doctor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Desea Eliminar este Doctor?
+                </div>
+                <div id="eliminarFooter" class="modal-footer">
+                </div>
             </div>
-            <div class="modal-body">
-                Desea Eliminar este Doctor?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary">Eliminar</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-    <!-- HTML NOTIFICACION -->
+    <!-- HTML TOAST -->
     <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
         style="position: absolute; bottom: 20px; right: 20px;">
         <div class="toast-header">
