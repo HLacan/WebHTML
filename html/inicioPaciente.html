@@ -10,20 +10,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/terjetas.css">
+
     <link rel="stylesheet" href="../css/paciente.css">
     <title>Document</title>
 </head>
 
 <body>
     <div>
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-light" style="margin-bottom: 30px; background-color: rgb(116, 217, 224);">
             <div class="container-fluid">
-                <a class="navbar-brand">Navbar</a>
+                <a class="navbar-brand">Healthy Corp</a>
                 <div class="d-flex">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
+                            Opciones
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="modificarPerfil.html">Modificar Perfil</a></li>
@@ -32,17 +34,17 @@
                     </div>
                 </div>
             </div>
-        </nav>
     </div>
-    <br>
+    
+    <h1 class="text-center">Inicio Paciente</h1>
 
-    <div class="row">
+    <div class="row" style="margin-top: 30px;">
         <div class="col-md-6">
             <div class="mb-3">
                 <div class="list-group margen-izq">
-                    <div class="list-group-item">
+                    <div class="list-group-item fondo">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Solicitar Cita</h5>
+                            <h5 class="mb-1">Solicitar una cita</h5>
                         </div>
                         <br>
                         <a class="btn btn-success" type="submit" href="crearCita.html">Solicitar</a>
@@ -51,12 +53,12 @@
             </div>
             <div class="mb-3">
                 <div class="list-group margen-izq">
-                    <div class="list-group-item">
+                    <div class="list-group-item fondo">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Ver Citas</h5>
                         </div>
                         <br>
-                        <a class="btn btn-success" type="submit" href="citasPaciente.html">Ver</a>
+                        <a class="btn btn-success" type="submit" href="citasPaciente.html">Visualizar</a>
                     </div>
                 </div>
             </div>
@@ -64,7 +66,7 @@
         <div class="col-md-6">
             <div class="mb-3">
                 <div class="list-group margen-der">
-                    <div class="list-group-item">
+                    <div class="list-group-item fondo">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Comprar Medicina</h5>
                         </div>
