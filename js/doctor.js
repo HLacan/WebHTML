@@ -68,7 +68,7 @@ function pdfDoctores() {
 function getDoctores() {
     var listaDoctor = []
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getDoctores')
+    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
