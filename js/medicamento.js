@@ -6,16 +6,16 @@ function getMedicamentos() {
             console.log(response)
             document.getElementById("cuerpoTabla").innerHTML = "";
             for (var i = 0; i < response.length; i++) {
-                var paciente = response[i]
+                var medicamento = response[i]
                 htmlTable.innerHTML += `
                 <tr>
-                    <td>${paciente.nombre}</td>
-                    <td>${paciente.precio}</td>
-                    <td>${paciente.descripcion}</td>
-                    <td>${paciente.cantidad}</td>
+                    <td>${medicamento.nombre}</td>
+                    <td>${medicamento.precio}</td>
+                    <td>${medicamento.descripcion}</td>
+                    <td>${medicamento.cantidad}</td>
                     <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificar" onclick="getPaciente('${paciente.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminar" onclick="opcionesDelete('${paciente.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificar" onclick="getMedicamento('${medicamento.nombre}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminar" onclick="opcionesDelete('${medicamento.nombre}')" type="submit"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`
             }
@@ -25,7 +25,7 @@ function getMedicamentos() {
         });
 }
 
-function cargarPacientes() {
+function cargarMedicamentos() {
     var input = document.getElementById('fileinput');
     if (!input.files[0]) {
         Toasty('noArchivo')
@@ -67,6 +67,73 @@ function cargarPacientes() {
         }
         reader.readAsText(file);
     }
+}
+
+function pdfMedicamentos() {
+    window.jsPDF = window.jspdf.jsPDF
+    const pdf = new jsPDF();
+
+    fetch('http://127.0.0.1:5000/api/getMedicamentos')
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('hubo un problema' + response.status);
+                return;
+            } else {
+                response.json().then(function (data) {
+                    const lista = []
+                    for (var i = 0; i < data.length; i++) {
+                        var medicamento = data[i]
+                        var dataMedicamento = {
+                            'nombre': medicamento.nombre,
+                            'precio': medicamento.precio,
+                            'descripcion': medicamento.descripcion,
+                            'cantidad': medicamento.cantidad,
+                        }
+                        lista.push(dataMedicamento)
+                    }
+                    //console.log("mi lista" + JSON.stringify(lista))
+
+                    const columnas = [['Nombre', 'Precio', 'Descripcion', 'Cantidad']];
+                    const filas = [];
+
+                    lista.forEach(i => {
+                        const temp = [i.nombre, i.precio, i.descripcion, i.cantidad];
+                        filas.push(temp);
+                    });
+
+                    pdf.text('Listado de Medicamentos', 80, 10,)
+                    pdf.autoTable({
+                        head: columnas,
+                        body: filas,
+                    });
+                    pdf.save('Listado_Medicamentos.pdf');
+                    Toasty('reporte')
+                });
+            }
+        }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :(', err);
+        });
+
+}
+
+function getMedicamento(usuario) {
+    selectIndice = 0
+    fetch(`http://127.0.0.1:5000/api/getMedicamento/${usuario}`)
+        .then((resp) => resp.json(
+        )).then(function (response) {
+            console.log(response)
+            document.getElementById('nombre').value = response.nombre
+            document.getElementById('precio').value = response.precio
+            document.getElementById('descripcion').value = response.descripcion
+            document.getElementById('cantidad').value = response.cantidad
+            document.getElementById('footerModal').innerHTML = `
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="validarMedicamento('${response.nombre}')">Modificar</button>`
+        }).catch(function (error) {
+            console.log(error);
+        });
 }
 
 getMedicamentos()
