@@ -29,7 +29,7 @@ function login() {
                 sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = '../html/inicioDoctor.html'
 
-            } else if (jsonResponse['tipo'] == 'enfermera'){
+            } else if (jsonResponse['tipo'] == 'enfermero'){
                 console.log('amonos a enfermera page')
                 sessionStorage.setItem("sesion", JSON.stringify(jsonResponse));
                 document.location.href = '../html/inicioEnfermera.html'
