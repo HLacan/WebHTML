@@ -15,25 +15,24 @@
 </head>
 
 <body>
-    <div>
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand">Navbar</a>
-                <div class="d-flex">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="modificarPerfil.html">Modificar Perfil</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="salir()">Cerrar Sesion</a></li>
-                        </ul>
-                    </div>
+    <nav class="navbar navbar-light" style="margin-bottom: 30px; background-color: rgb(116, 217, 224);">
+        <div class="container-fluid">
+            <a class="navbar-brand">Healthy Corp</a>
+            <div class="d-flex">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Opciones
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="modificarPerfil.html">Modificar Perfil</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="salir()">Cerrar Sesion</a></li>
+                    </ul>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+    <h2 class="text-center">Inicio Administrador</h2>
     <br>
     <div class="list-group">
         <div class="list-group-item">
@@ -51,7 +50,7 @@
                 <h5 class="mb-1">Gestion de Pacientes</h5>
             </div>
             <br>
-            <button class="btn btn-primary" type="submit">Gestionar</button>
+            <a class="btn btn-success" type="submit" href="webPaciente.html">Gestionar</a>
         </div>
     </div>
     <br>
@@ -61,7 +60,7 @@
                 <h5 class="mb-1">Gestion de Enfermeras</h5>
             </div>
             <br>
-            <a class="btn btn-primary" type="submit" href="webEnfermera.html">Gestionar</a>
+            <a class="btn btn-success" type="submit" href="webEnfermera.html">Gestionar</a>
         </div>
     </div>
     <br>
@@ -71,7 +70,7 @@
                 <h5 class="mb-1">Gestion de Medicamentos</h5>
             </div>
             <br>
-            <button class="btn btn-primary" type="submit">Gestionar</button>
+            <a class="btn btn-success" type="submit" href="webMedicamento.html">Gestionar</a>
         </div>
     </div>
     <script src="../js/sesion.js"></script>
