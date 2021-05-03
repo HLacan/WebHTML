@@ -13,17 +13,22 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./js/toast.js"></script>
     <title>Document</title>
 </head>
 
 <body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Navbar</a>
+            <form class="d-flex">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Ingresar</button>
+            </form>
+        </div>
+    </nav>
 
-
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-        Launch demo modal
-    </button>
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -32,16 +37,16 @@
                     <h4 class="text-center">Iniciar sesion</h4>
                     <br>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="usuario" class="form-label">Nombre de Usuario</label>
+                        <input type="text" class="form-control" id="usuario">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena">
                     </div>
                     <br>
                     <div class="col text-center">
-                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                        <button type="submit" class="btn btn-primary" onclick="login()">Ingresar</button>
                         <br>
                         <label for="">No tienes cuenta?</label>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"
@@ -83,9 +88,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
+                                <label for="username" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="username" maxlength="8" autocomplete="off">
+
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
@@ -113,26 +118,17 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <button class="btn btn-success" onclick="Toasty( )">Toast Me UPPPP</button>
-
-                <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
-                    style="position: absolute; top: 20px; right: 20px;">
-                    <div class="toast-header">
-                        <i class="fa fa-info" style="padding: 5px;"></i>
-                        <strong class="me-auto"> Alerta</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-
-                    <div class="toast-body">
-                        Usuario o contrasena incorrectos
-                    </div>
-                </div>
-            </div>
+    <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
+        style="position: absolute; bottom: 20px; right: 20px;">
+        <div class="toast-header">
+            <i class="fa fa-info" style="padding: 5px;"></i>
+            <strong class="me-auto"> Alerta</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toastBody" class="toast-body">
         </div>
     </div>
-</body>
 
+    <script src="/js/login.js"></script>
+</body>
 </html>
