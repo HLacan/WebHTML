@@ -37,7 +37,6 @@ function addCita() {
 }
 
 function getCitasPaciente() {
-
     color = ''
     usuario = sesion['usuario']
     var cards1 = document.getElementById("cards1")
@@ -81,9 +80,10 @@ function getCitasPaciente() {
                     <div class="mb-3">
                         <div class="card" style="width: 18rem;">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
+                            <li class="list-group-item">Fecha: ${cita.fecha}</li>
+                            <li class="list-group-item">Hora: ${cita.hora}</li>
+                            <li class="list-group-item">Descripcion: ${cita.descripcion}</li>
+                            <li class="list-group-item" style="background-color: ${color};">Estado: ${cita.estado}</li>
                             </ul>
                         </div>
                     </div>`
@@ -93,9 +93,10 @@ function getCitasPaciente() {
                     <div class="mb-3">
                         <div class="card" style="width: 18rem;">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">An item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
+                            <li class="list-group-item">Fecha: ${cita.fecha}</li>
+                            <li class="list-group-item">Hora: ${cita.hora}</li>
+                            <li class="list-group-item">Descripcion: ${cita.descripcion}</li>
+                            <li class="list-group-item" style="background-color: ${color};">Estado: ${cita.estado}</li>
                             </ul>
                         </div>
                     </div>`
@@ -107,3 +108,140 @@ function getCitasPaciente() {
             console.log(error);
         });
 }
+
+function getCitasPendientes(){
+    var htmlTable = document.getElementById("cuerpoTabla")
+    fetch('http://127.0.0.1:5000/api/getCitasPendientes')
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            document.getElementById("cuerpoTabla").innerHTML = "";
+            for (var i = 0; i < response.length; i++) {
+                var cita = response[i]
+                htmlTable.innerHTML += `
+                <tr>
+                    <td>Fecha: ${cita.fecha} --- Hora: ${cita.hora} --- Descripcion ${cita.descripcion}</td>
+                    <td>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cita" onclick="selDoctor('${cita.usuario}')" type="submit">Aceptar</button>
+                        <button class="btn btn-danger" onclick="rechazarEstado('rechazado','${cita.usuario}')" type="submit">Rechazar</button>
+                    </td>
+                </tr>`
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function selDoctor(pUsuario){
+
+    var select = document.getElementById("doctor")
+    fetch('http://127.0.0.1:5000/api/getDoctores')
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            document.getElementById("doctor").innerHTML = "";
+            for (var i = 0; i < response.length; i++) {
+                var doctor = response[i]
+                select.innerHTML += `
+                    <option value="${doctor.usuario}">${doctor.nombre} ${doctor.apellido}</option>
+                `
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    document.getElementById('footer').innerHTML = `
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-primary" onclick="aceptarCita('${pUsuario}')">Aceptar Cita</button>`
+}
+
+function aceptarCita(usuario){
+    doctor = document.getElementById('doctor').value
+    fetch('http://127.0.0.1:5000/api/updateEstado', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'estado': 'aceptado',
+            'usuario': usuario,
+            'doctor': doctor
+        })
+    }).then(response => {
+        return response.json();
+    }).then(jsonResponse => {
+        console.log(jsonResponse);
+        getCitasPendientes()
+    }).catch(error => {
+        console.log(error)  
+    })
+}
+
+function rechazarEstado(estado, usuario){
+    fetch('http://127.0.0.1:5000/api/updateEstado', {
+            method: 'post',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+                'estado': estado,
+                'usuario': usuario,
+                'doctor': ''
+            })
+        }).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log(jsonResponse);
+            getCitasPendientes()
+        }).catch(error => {
+            console.log(error)  
+        })
+}
+
+//obtener citas aceptadas en 'ENFERMERAS'
+function getAllCitas(){
+    var htmlTable = document.getElementById("cuerpoTabla")
+    fetch('http://127.0.0.1:5000/api/getCitasAceptadas')
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            document.getElementById("cuerpoTabla").innerHTML = "";
+            for (var i = 0; i < response.length; i++) {
+                var cita = response[i]
+                htmlTable.innerHTML += `
+                <tr>
+                    <td>Fecha: ${cita.fecha} --- Hora: ${cita.hora} --- Descripcion ${cita.descripcion}</td>
+                    <td>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#factura" onclick="getDatos('${cita.usuario}', '${cita.doctor}')" type="submit">Facturar</button>
+                    </td>
+                </tr>`
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function getCitasDoctor(){
+    usuario = sesion['usuario']
+    var htmlTable = document.getElementById("cuerpoTabla")
+    fetch(`http://127.0.0.1:5000/api/getCitasAceptadas/${usuario}`)
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            document.getElementById("cuerpoTabla").innerHTML = "";
+            for (var i = 0; i < response.length; i++) {
+                var cita = response[i]
+                htmlTable.innerHTML += `
+                <tr>
+                    <td>Fecha: ${cita.fecha} --- Hora: ${cita.hora} --- Descripcion ${cita.descripcion}</td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#factura" onclick="getDatos('${cita.usuario}', '${cita.doctor}')" type="submit">Facturar</button>
+                    </td>
+                </tr>`
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
