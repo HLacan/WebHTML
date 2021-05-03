@@ -1,4 +1,4 @@
-function getPacientes() {
+function getMedicamentos() {
     var htmlTable = document.getElementById("cuerpoTabla")
     fetch('http://127.0.0.1:5000/api/getMedicamentos')
         .then((resp) => resp.json())
@@ -25,4 +25,48 @@ function getPacientes() {
         });
 }
 
-getPacientes()
+function cargarPacientes() {
+    var input = document.getElementById('fileinput');
+    if (!input.files[0]) {
+        Toasty('noArchivo')
+    } else {
+        var file = input.files[0];
+        console.log(file)
+
+        var reader = new FileReader();
+
+        reader.onload = function (progressEvent) {
+            var linea = this.result.split('\n');
+            for (var i = 1; i < linea.length - 1; i++) {
+                info = linea[i].split(',');
+                console.log(info)
+
+                fetch('http://127.0.0.1:5000/api/addMedicamento', {
+                    method: 'post',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({
+                        'nombre': info[0],
+                        'precio': info[1],
+                        'descripcion': info[2],
+                        'cantidad': info[3],
+                    })
+                }).then(response => {
+                    return response.json();
+
+                }).then(jsonResponse => {
+                    console.log(jsonResponse);
+                    document.getElementById('fileinput').value = "";
+                    if (jsonResponse['res'] == 'Usuario ya repetido') {
+                        Toasty('repetido')
+                    }
+                    getMedicamentos();
+                }).catch(error => {
+                    console.log(error)
+                })
+            }
+        }
+        reader.readAsText(file);
+    }
+}
+
+getMedicamentos()
