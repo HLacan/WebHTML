@@ -166,10 +166,87 @@ function getEnfermera(usuario) {
             document.getElementById('telefono').value = response.telefono
             document.getElementById('footerModal').innerHTML = `
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" onclick="validarDoctor('${response.usuario}')">Modificar</button>`
+            <button type="button" class="btn btn-primary" onclick="validarEnfermera('${response.usuario}')">Modificar</button>`
         }).catch(function (error) {
             console.log(error);
         });
+}
+
+function validarEnfermera(oldUsuario) {
+    newUsuario = document.getElementById('usuario').value
+    if (oldUsuario != newUsuario) {
+        fetch(`http://127.0.0.1:5000/api/getUpdateEnfermera/${newUsuario}`)
+            .then((resp) => resp.json())
+            .then(function (response) {
+                if (response['res'] == 'no existe') {
+                    updateEnfermera(newUsuario)
+                    cerrarModal('#modificar')
+                    Toasty('modificar')
+                } else {
+                    console.log('el nombre de usuario le pertenece a otra persona')
+                    Toasty('existe')
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    } else if (oldUsuario == newUsuario) {
+        console.log('modificando el mismo usuario')
+        updateEnfermera(oldUsuario)
+        cerrarModal('#modificar')
+        Toasty('modificar')
+    }
+}
+
+function updateEnfermera(newUsuario, oldUsuario) {
+    nombre = document.getElementById('nombre').value
+    apellido = document.getElementById('apellido').value
+    oldFecha = document.getElementById('fecha').value
+    genero = document.getElementById('genero').value
+    contrasena = document.getElementById('contrasena').value
+    telefono = document.getElementById('telefono').value
+    splittedFecha = oldFecha.split('-')
+    newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
+
+    fetch('http://127.0.0.1:5000/api/updateEnfermera', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'nombre': nombre,
+            'apellido': apellido,
+            'fecha': newFecha,
+            'genero': genero,
+            'usuario': usuario,
+            'contrasena': contrasena,
+            'telefono': telefono
+        })
+    }).then(response => {
+        return response.json();
+    }).then(jsonResponse => {
+        console.log(jsonResponse)
+        getEnfermeras()
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function deleteDoctor(usuario) {
+    fetch(`http://127.0.0.1:5000/api/deleteEnfermera/${usuario}`)
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            cerrarModal('#eliminar')
+            Toasty('eliminar')
+            getEnfermeras()
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function cerrarModal(modal) {
+    console.log(modal)
+    $(modal).modal('hide');
 }
 
 getEnfermeras()
