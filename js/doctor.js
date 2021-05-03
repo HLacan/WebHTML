@@ -2,7 +2,7 @@ function pdfDoctores() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('http://127.0.0.1:5000/api/getDoctores')
+    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
