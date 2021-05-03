@@ -115,7 +115,7 @@ function cargarDoctores() {
             for (var i = 1; i < linea.length - 1; i++) {
                 info = linea[i].split(',');
 
-                fetch('http://127.0.0.1:5000/api/addDoctor', {
+                fetch('https://application-be-201906576.herokuapp.com/api/addDoctor', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
