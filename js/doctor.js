@@ -2,7 +2,7 @@ function pdfDoctores() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
+    fetch('http://127.0.0.1:5000/api/getDoctores')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
@@ -68,7 +68,7 @@ function pdfDoctores() {
 function getDoctores() {
     var listaDoctor = []
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
+    fetch('http://127.0.0.1:5000/api/getDoctores')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -115,7 +115,7 @@ function cargarDoctores() {
             for (var i = 1; i < linea.length - 1; i++) {
                 info = linea[i].split(',');
 
-                fetch('https://application-be-201906576.herokuapp.com/api/addDoctor', {
+                fetch('http://127.0.0.1:5000/api/addDoctor', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
@@ -186,11 +186,12 @@ function getEliminarDoctor(usuario) {
 function validarDoctor(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/getUpdateDoctor/${newUsuario}`)
+        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
-                if (response['res'] == 'no existe') {
-                    updateDoctor(newUsuario)
+                console.log(response)
+                if (response['res'] == 'libre') {
+                    updateDoctor(oldUsuario, newUsuario)
                     cerrarModal('#modificarDoctor')
                     Toasty('modificar')
                 } else {
@@ -203,44 +204,49 @@ function validarDoctor(oldUsuario) {
             });
     } else if (oldUsuario == newUsuario) {
         console.log('modificando el mismo usuario')
-        updateDoctor(oldUsuario)
+        updateDoctor(oldUsuario, newUsuario)
         cerrarModal('#modificarDoctor')
         Toasty('modificar')
     }
 }
 
-function updateDoctor(usuario) {
-    nombre = document.getElementById('nombre').value
-    apellido = document.getElementById('apellido').value
-    oldFecha = document.getElementById('fecha').value
-    genero = document.getElementById('genero').value
-    contrasena = document.getElementById('contrasena').value
-    especialidad = document.getElementById('especialidad').value
-    telefono = document.getElementById('telefono').value
-    splittedFecha = oldFecha.split('-')
-    newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
+function updateDoctor(oldUsuario, newUsuario) {
+        nombre = document.getElementById('nombre').value
+        apellido = document.getElementById('apellido').value
+        oldFecha = document.getElementById('fecha').value
+        genero = document.getElementById('genero').value
+        usuario = document.getElementById('usuario').value
+        contrasena = document.getElementById('contrasena').value
+        especialidad = document.getElementById('especialidad').value
+        telefono = document.getElementById('telefono').value
+        splittedFecha = oldFecha.split('-')
+        newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-    fetch('http://127.0.0.1:5000/api/updateDoctor', {
-        method: 'post',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-            'nombre': nombre,
-            'apellido': apellido,
-            'fecha': newFecha,
-            'genero': genero,
-            'usuario': usuario,
-            'contrasena': contrasena,
-            'especialidad': especialidad,
-            'telefono': telefono
+        console.log(oldUsuario)
+        console.log(newUsuario)
+
+        fetch('http://127.0.0.1:5000/api/updateDoctor', {
+            method: 'post',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+                'nombre': nombre,
+                'apellido': apellido,
+                'fecha': newFecha,
+                'genero': genero,
+                'oldUsuario': oldUsuario,
+                'newUsuario': newUsuario,
+                'contrasena': contrasena,
+                'especialidad': especialidad,
+                'telefono': telefono
+            })
+        }).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log(jsonResponse)
+            getDoctores()
+        }).catch(error => {
+            console.log(error)
         })
-    }).then(response => {
-        return response.json();
-    }).then(jsonResponse => {
-        console.log(jsonResponse)
-        getDoctores()
-    }).catch(error => {
-        console.log(error)
-    })
 }
 
 function deleteDoctor(usuario) {
@@ -263,4 +269,5 @@ function cerrarModal(modal) {
 }
 
 getDoctores()
+
 

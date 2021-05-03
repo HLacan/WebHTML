@@ -20,7 +20,7 @@ function getEnfermeras() {
                     <td>${enfermera.telefono}</td>
                     <td>
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificar" onclick="getEnfermera('${enfermera.usuario}')" type="submit"><i class="fa fa-pencil" style="font-size:15px; color:white;"></i></button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="getEliminarDoctor('${enfermera.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal" onclick="getEliminarEnfermera('${enfermera.usuario}')" type="submit"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>`
                 listaEnfermeras.push(filaEnfermera)
@@ -175,11 +175,12 @@ function getEnfermera(usuario) {
 function validarEnfermera(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/getUpdateEnfermera/${newUsuario}`)
+        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
-                if (response['res'] == 'no existe') {
-                    updateEnfermera(newUsuario)
+                console.log(response)
+                if (response['res'] == 'libre') {
+                    updateEnfermera(oldUsuario, newUsuario)
                     cerrarModal('#modificar')
                     Toasty('modificar')
                 } else {
@@ -192,17 +193,18 @@ function validarEnfermera(oldUsuario) {
             });
     } else if (oldUsuario == newUsuario) {
         console.log('modificando el mismo usuario')
-        updateEnfermera(oldUsuario)
+        updateEnfermera(oldUsuario, newUsuario)
         cerrarModal('#modificar')
         Toasty('modificar')
     }
 }
 
-function updateEnfermera(newUsuario, oldUsuario) {
+function updateEnfermera(oldUsuario, newUsuario) {
     nombre = document.getElementById('nombre').value
     apellido = document.getElementById('apellido').value
     oldFecha = document.getElementById('fecha').value
     genero = document.getElementById('genero').value
+    usuario = document.getElementById('usuario').value
     contrasena = document.getElementById('contrasena').value
     telefono = document.getElementById('telefono').value
     splittedFecha = oldFecha.split('-')
@@ -216,7 +218,8 @@ function updateEnfermera(newUsuario, oldUsuario) {
             'apellido': apellido,
             'fecha': newFecha,
             'genero': genero,
-            'usuario': usuario,
+            'oldUsuario': oldUsuario,
+            'newUsuario': newUsuario,
             'contrasena': contrasena,
             'telefono': telefono
         })
@@ -230,12 +233,18 @@ function updateEnfermera(newUsuario, oldUsuario) {
     })
 }
 
-function deleteDoctor(usuario) {
+function getEliminarEnfermera(usuario) {
+    document.getElementById('eliminarFooter').innerHTML = `
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-primary" onclick="deleteEnfermera('${usuario}')">Eliminar</button>`
+}
+
+function deleteEnfermera(usuario) {
     fetch(`http://127.0.0.1:5000/api/deleteEnfermera/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
-            cerrarModal('#eliminar')
+            cerrarModal('#eliminarModal')
             Toasty('eliminar')
             getEnfermeras()
         })
@@ -245,7 +254,6 @@ function deleteDoctor(usuario) {
 }
 
 function cerrarModal(modal) {
-    console.log(modal)
     $(modal).modal('hide');
 }
 
