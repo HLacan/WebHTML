@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
-
+    <script src="../js/login.js"></script>
     <title>Document</title>
 </head>
 
@@ -27,7 +27,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="modificarPerfil.html">Modificar Perfil</a></li>
-                            <li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="salir()">Cerrar Sesion</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                 <h5 class="mb-1">Gestion de Enfermeras</h5>
             </div>
             <br>
-            <button class="btn btn-primary" type="submit">Gestionar</button>
+            <a class="btn btn-primary" type="submit" href="webEnfermera.html">Gestionar</a>
         </div>
     </div>
     <br>
@@ -74,6 +74,7 @@
             <button class="btn btn-primary" type="submit">Gestionar</button>
         </div>
     </div>
+    <script src="../js/sesion.js"></script>
 </body>
 
 </html>
