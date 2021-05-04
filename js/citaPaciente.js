@@ -230,6 +230,7 @@ function getAllCitas(){
 
 function getCitasDoctor(){
     usuario = sesion['usuario']
+    var comp = ''
     var htmlTable = document.getElementById("cuerpoTabla")
     fetch(`http://127.0.0.1:5000/api/getCitasAceptadas/${usuario}`)
         .then((resp) => resp.json())
@@ -238,19 +239,45 @@ function getCitasDoctor(){
             document.getElementById("cuerpoTabla").innerHTML = "";
             for (var i = 0; i < response.length; i++) {
                 var cita = response[i]
+                if(cita.estado == 'completado'){
+                    comp = 'disabled'
+                } else {
+                    comp = ''
+                }
                 htmlTable.innerHTML += `
                 <tr>
                     <td>Fecha: ${cita.fecha} --- Hora: ${cita.hora} --- Descripcion ${cita.descripcion}</td>
-                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><button id='citaC' class="btn btn-primary" onclick="completarCita('${cita.usuario}', '${cita.doctor}')" ${comp}>Completar</button></td>
                     <td>
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#factura" onclick="getDatos('${cita.usuario}', '${cita.doctor}')" type="submit">Facturar</button>
                     </td>
                 </tr>`
             }
+
         })
         .catch(function (error) {
             console.log(error);
         });
+}
+
+function completarCita(paciente, doctor){
+    fetch('http://127.0.0.1:5000/api/updateEstado', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'estado': 'completado',
+            'usuario': paciente,
+            'doctor': doctor
+        })
+    }).then(response => {
+        return response.json();
+    }).then(jsonResponse => {
+        console.log(jsonResponse);
+        //Toasty('completado')
+        getCitasDoctor()
+    }).catch(error => {
+        console.log(error)  
+    })
 }
 
 function cerrarModal(modal) {
