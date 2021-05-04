@@ -193,7 +193,7 @@ function validarPaciente(oldUsuario) {
             });
     } else if (oldUsuario == newUsuario) {
         console.log('modificando el mismo usuario')
-        updateEnfermera(oldUsuario, newUsuario)
+        updatePaciente(oldUsuario, newUsuario)
         cerrarModal('#modificar')
         Toasty('modificar')
     }
