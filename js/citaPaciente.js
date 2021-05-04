@@ -249,7 +249,7 @@ function getCitasDoctor(){
                     <td>Fecha: ${cita.fecha} --- Hora: ${cita.hora} --- Descripcion ${cita.descripcion}</td>
                     <td class="text-center"><button id='citaC' class="btn btn-primary" onclick="completarCita('${cita.usuario}', '${cita.doctor}')" ${comp}>Completar</button></td>
                     <td>
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#factura" onclick="getDatos('${cita.usuario}', '${cita.doctor}')" type="submit">Facturar</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#receta" onclick="getDatosReceta('${cita.doctor}')" type="submit">Facturar</button>
                     </td>
                 </tr>`
             }
