@@ -19,7 +19,15 @@ function Toasty(estado) {
         toast.innerHTML = 'Reporte Generado!'
     } else if(estado == 'existe'){
         toast.innerHTML = 'El usuario ya existe!'
-    }
+    } else if(estado == 'citaA'){
+        toast.innerHTML = 'Cita Agregada!'
+    } else if(estado == 'citaP'){
+        toast.innerHTML = 'Ya hay una cita Pendiente!'
+    } else if(estado == 'aceptado'){
+        toast.innerHTML = 'Cita Aceptada!'
+    } else if(estado == 'rechazado'){
+        toast.innerHTML = 'Cita Rechazada!'
+    } 
 
 
     var toastHTMLElement = document.getElementById('EpicToast');
