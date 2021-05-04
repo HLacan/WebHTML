@@ -136,4 +136,35 @@ function getMedicamento(usuario) {
         });
 }
 
+function validarMedicamento(oldNombre) {
+    newNombre = document.getElementById('nombre').value
+    if (oldNombre != newNombre) {
+        fetch(`http://127.0.0.1:5000/api/validarM/${oldNombre}/${newNombre}`)
+            .then((resp) => resp.json())
+            .then(function (response) {
+                console.log(response)
+                if (response['res'] == 'libre') {
+                    //updatePaciente(oldUsuario, newUsuario)
+                    cerrarModal('#modificar')
+                    Toasty('modificar')
+                } else {
+                    console.log('el nombre de medicamento ya esta en uso')
+                    Toasty('existe')
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    } else if (oldNombre == newNombre) {
+        console.log('modificando el mismo medicamento')
+        //updateEnfermera(oldUsuario, newUsuario)
+        cerrarModal('#modificar')
+        Toasty('modificar')
+    }
+}
+
+function cerrarModal(modal) {
+    $(modal).modal('hide');
+}
+
 getMedicamentos()
