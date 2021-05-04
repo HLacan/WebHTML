@@ -28,6 +28,11 @@ function addCita() {
             return response.json();
         }).then(jsonResponse => {
             console.log(jsonResponse);
+            if(jsonResponse['res'] == 'ya hay citas'){
+                Toasty('citaP')
+            } else if (jsonResponse['res'] == 'agregado'){
+                Toasty('citaA')
+            }
         }).catch(error => {
             console.log(error)
         })
@@ -171,6 +176,8 @@ function aceptarCita(usuario){
         return response.json();
     }).then(jsonResponse => {
         console.log(jsonResponse);
+        Toasty('aceptado')
+        cerrarModal('#cita')
         getCitasPendientes()
     }).catch(error => {
         console.log(error)  
@@ -190,6 +197,7 @@ function rechazarEstado(estado, usuario){
             return response.json();
         }).then(jsonResponse => {
             console.log(jsonResponse);
+            Toasty('rechazado')
             getCitasPendientes()
         }).catch(error => {
             console.log(error)  
@@ -243,5 +251,9 @@ function getCitasDoctor(){
         .catch(function (error) {
             console.log(error);
         });
+}
+
+function cerrarModal(modal) {
+    $(modal).modal('hide');
 }
 
