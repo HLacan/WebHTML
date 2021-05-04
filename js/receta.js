@@ -1,5 +1,5 @@
 function getDatosReceta(doctor){
-    fetch(`http://127.0.0.1:5000/api/getDoctor/${doctor}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getDoctor/${doctor}`)
     .then((resp) => resp.json(
     )).then(function (response) {
         console.log(response)

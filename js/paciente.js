@@ -1,7 +1,7 @@
 function getPacientes() {
     var listaPacientes = []
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getPacientes')
+    fetch('https://application-be-201906576.herokuapp.com/api/getPacientes')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -45,7 +45,7 @@ function addPaciente(){
     if(nombre == "" || apellido == "" || oldFecha == "" || genero == "" || usuario == "" || contrasena == ""){
         alert('vacio')
     } else {
-        fetch('http://127.0.0.1:5000/api/addPaciente', {
+        fetch('https://application-be-201906576.herokuapp.com/api/addPaciente', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -89,7 +89,7 @@ function cargarPacientes() {
             for (var i = 1; i < linea.length - 1; i++) {
                 info = linea[i].split(',');
 
-                fetch('http://127.0.0.1:5000/api/addPaciente', {
+                fetch('https://application-be-201906576.herokuapp.com/api/addPaciente', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
@@ -124,7 +124,7 @@ function pdfPacientes() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('http://127.0.0.1:5000/api/getPacientes')
+    fetch('https://application-be-201906576.herokuapp.com/api/getPacientes')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
@@ -188,7 +188,7 @@ function pdfPacientes() {
 
 function getPaciente(usuario) {
     selectIndice = 0
-    fetch(`http://127.0.0.1:5000/api/getPaciente/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getPaciente/${usuario}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             if (response.genero == 'M') {
@@ -218,7 +218,7 @@ function getPaciente(usuario) {
 function validarPaciente(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
                 console.log(response)
@@ -252,7 +252,7 @@ function updatePaciente(oldUsuario, newUsuario) {
     splittedFecha = oldFecha.split('-')
     newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-    fetch('http://127.0.0.1:5000/api/updatePaciente', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updatePaciente', {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -282,7 +282,7 @@ function opcionesDelete(usuario) {
 }
 
 function deletePaciente(usuario) {
-    fetch(`http://127.0.0.1:5000/api/deletePaciente/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/deletePaciente/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)

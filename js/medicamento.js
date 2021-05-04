@@ -1,6 +1,6 @@
 function getMedicamentos() {
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getMedicamentos')
+    fetch('https://application-be-201906576.herokuapp.com/api/getMedicamentos')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -41,7 +41,7 @@ function cargarMedicamentos() {
                 info = linea[i].split(',');
                 console.log(info)
 
-                fetch('http://127.0.0.1:5000/api/addMedicamento', {
+                fetch('https://application-be-201906576.herokuapp.com/api/addMedicamento', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
@@ -73,7 +73,7 @@ function pdfMedicamentos() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('http://127.0.0.1:5000/api/getMedicamentos')
+    fetch('https://application-be-201906576.herokuapp.com/api/getMedicamentos')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
@@ -120,7 +120,7 @@ function pdfMedicamentos() {
 
 function getMedicamento(usuario) {
     selectIndice = 0
-    fetch(`http://127.0.0.1:5000/api/getMedicamento/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getMedicamento/${usuario}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             console.log(response)
@@ -139,7 +139,7 @@ function getMedicamento(usuario) {
 function validarMedicamento(oldNombre) {
     newNombre = document.getElementById('nombre').value
     if (oldNombre != newNombre) {
-        fetch(`http://127.0.0.1:5000/api/validarM/${oldNombre}/${newNombre}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/validarM/${oldNombre}/${newNombre}`)
             .then((resp) => resp.json())
             .then(function (response) {
                 console.log(response)
@@ -169,7 +169,7 @@ function updateMedicamento(oldNombre, newNombre) {
     descripcion = document.getElementById('descripcion').value
     cantidad = document.getElementById('cantidad').value
 
-    fetch('http://127.0.0.1:5000/api/updateMedicamento', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updateMedicamento', {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -197,7 +197,7 @@ function opcionesDelete(nombre) {
 }
 
 function deleteMedicamento(nombre) {
-    fetch(`http://127.0.0.1:5000/api/deleteMedicamento/${nombre}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/deleteMedicamento/${nombre}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)

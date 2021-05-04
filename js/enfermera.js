@@ -1,7 +1,7 @@
 function getEnfermeras() {
     var listaEnfermeras = []
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getEnfermeras')
+    fetch('https://application-be-201906576.herokuapp.com/api/getEnfermeras')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -46,7 +46,7 @@ function cargarEnfermeras() {
             for (var i = 1; i < linea.length - 1; i++) {
                 info = linea[i].split(',');
 
-                fetch('http://127.0.0.1:5000/api/addEnfermera', {
+                fetch('https://application-be-201906576.herokuapp.com/api/addEnfermera', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
@@ -81,7 +81,7 @@ function pdfEnfermeras() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('http://127.0.0.1:5000/api/getEnfermeras')
+    fetch('https://application-be-201906576.herokuapp.com/api/getEnfermeras')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
@@ -145,7 +145,7 @@ function pdfEnfermeras() {
 
 function getEnfermera(usuario) {
     selectIndice = 0
-    fetch(`http://127.0.0.1:5000/api/getEnfermera/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getEnfermera/${usuario}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             if (response.genero == 'M') {
@@ -175,7 +175,7 @@ function getEnfermera(usuario) {
 function validarEnfermera(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
                 console.log(response)
@@ -210,7 +210,7 @@ function updateEnfermera(oldUsuario, newUsuario) {
     splittedFecha = oldFecha.split('-')
     newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-    fetch('http://127.0.0.1:5000/api/updateEnfermera', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updateEnfermera', {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -240,7 +240,7 @@ function getEliminarEnfermera(usuario) {
 }
 
 function deleteEnfermera(usuario) {
-    fetch(`http://127.0.0.1:5000/api/deleteEnfermera/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/deleteEnfermera/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)

@@ -2,7 +2,7 @@ function pdfDoctores() {
     window.jsPDF = window.jspdf.jsPDF
     const pdf = new jsPDF();
 
-    fetch('http://127.0.0.1:5000/api/getDoctores')
+    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
         .then(function (response) {
             if (response.status !== 200) {
                 console.log('hubo un problema' + response.status);
@@ -68,7 +68,7 @@ function pdfDoctores() {
 function getDoctores() {
     var listaDoctor = []
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getDoctores')
+    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -115,7 +115,7 @@ function cargarDoctores() {
             for (var i = 1; i < linea.length - 1; i++) {
                 info = linea[i].split(',');
 
-                fetch('http://127.0.0.1:5000/api/addDoctor', {
+                fetch('https://application-be-201906576.herokuapp.com/api/addDoctor', {
                     method: 'post',
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({
@@ -149,7 +149,7 @@ function cargarDoctores() {
 
 function getDoctor(usuario) {
     selectIndice = 0
-    fetch(`http://127.0.0.1:5000/api/getDoctor/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getDoctor/${usuario}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             if (response.genero == 'M') {
@@ -186,7 +186,7 @@ function getEliminarDoctor(usuario) {
 function validarDoctor(oldUsuario) {
     newUsuario = document.getElementById('usuario').value
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
                 console.log(response)
@@ -225,7 +225,7 @@ function updateDoctor(oldUsuario, newUsuario) {
         console.log(oldUsuario)
         console.log(newUsuario)
 
-        fetch('http://127.0.0.1:5000/api/updateDoctor', {
+        fetch('https://application-be-201906576.herokuapp.com/api/updateDoctor', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -250,7 +250,7 @@ function updateDoctor(oldUsuario, newUsuario) {
 }
 
 function deleteDoctor(usuario) {
-    fetch(`http://127.0.0.1:5000/api/deleteDoctor/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/deleteDoctor/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)

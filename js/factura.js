@@ -7,7 +7,7 @@ function total() {
 }
 
 function getDatos(paciente, doctor) {
-    fetch(`http://127.0.0.1:5000/api/getDoctor/${doctor}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getDoctor/${doctor}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             console.log(response)
@@ -16,7 +16,7 @@ function getDatos(paciente, doctor) {
             console.log(error);
         });
 
-        fetch(`http://127.0.0.1:5000/api/getPaciente/${paciente}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/getPaciente/${paciente}`)
         .then((resp) => resp.json(
         )).then(function (response) {
             console.log(response)

@@ -8,7 +8,7 @@ function login() {
         //console.log(usuario)
         //console.log(contrasena)
     
-        fetch('http://127.0.0.1:5000/api/login', {
+        fetch('https://application-be-201906576.herokuapp.com/api/login', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({

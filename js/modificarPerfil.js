@@ -47,7 +47,7 @@ function validarD() {
     console.log(oldUsuario)
     console.log(newUsuario)
     if (oldUsuario != newUsuario) {
-        fetch(`http://127.0.0.1:5000/api/validar/${oldUsuario}/${newUsuario}`)
+        fetch(`https://application-be-201906576.herokuapp.com/api/validar/${oldUsuario}/${newUsuario}`)
             .then((resp) => resp.json())
             .then(function (response) {
                 console.log(response)
@@ -87,7 +87,7 @@ function modificar(oldUsuario, newUsuario) {
         console.log(oldUsuario)
         console.log(newUsuario)
 
-        fetch('http://127.0.0.1:5000/api/updateDoctor', {
+        fetch('https://application-be-201906576.herokuapp.com/api/updateDoctor', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -121,7 +121,7 @@ function modificar(oldUsuario, newUsuario) {
         splittedFecha = oldFecha.split('-')
         newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-        fetch('http://127.0.0.1:5000/api/updateEnfermera', {
+        fetch('https://application-be-201906576.herokuapp.com/api/updateEnfermera', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -154,7 +154,7 @@ function modificar(oldUsuario, newUsuario) {
         splittedFecha = oldFecha.split('-')
         newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-        fetch('http://127.0.0.1:5000/api/updatePaciente', {
+        fetch('https://application-be-201906576.herokuapp.com/api/updatePaciente', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -182,7 +182,7 @@ function modificar(oldUsuario, newUsuario) {
         usuario = document.getElementById('usuario').value
         contrasena = document.getElementById('contrasena').value
 
-        fetch('http://127.0.0.1:5000/api/updateAdmin', {
+        fetch('https://application-be-201906576.herokuapp.com/api/updateAdmin', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({

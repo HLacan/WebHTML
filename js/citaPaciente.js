@@ -14,7 +14,7 @@ function addCita() {
         splittedFecha = fecha.split('-')
         newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
 
-        fetch('http://127.0.0.1:5000/api/addCitaPaciente', {
+        fetch('https://application-be-201906576.herokuapp.com/api/addCitaPaciente', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -47,7 +47,7 @@ function getCitasPaciente() {
     var cards1 = document.getElementById("cards1")
     var cards2 = document.getElementById("cards2")
     var cards3 = document.getElementById("cards3")
-    fetch(`http://127.0.0.1:5000/api/getCitasPaciente/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getCitasPaciente/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -116,7 +116,7 @@ function getCitasPaciente() {
 
 function getCitasPendientes(){
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getCitasPendientes')
+    fetch('https://application-be-201906576.herokuapp.com/api/getCitasPendientes')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -141,7 +141,7 @@ function getCitasPendientes(){
 function selDoctor(pUsuario){
 
     var select = document.getElementById("doctor")
-    fetch('http://127.0.0.1:5000/api/getDoctores')
+    fetch('https://application-be-201906576.herokuapp.com/api/getDoctores')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -164,7 +164,7 @@ function selDoctor(pUsuario){
 
 function aceptarCita(usuario){
     doctor = document.getElementById('doctor').value
-    fetch('http://127.0.0.1:5000/api/updateEstado', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updateEstado', {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
@@ -185,7 +185,7 @@ function aceptarCita(usuario){
 }
 
 function rechazarEstado(estado, usuario){
-    fetch('http://127.0.0.1:5000/api/updateEstado', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updateEstado', {
             method: 'post',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -207,7 +207,7 @@ function rechazarEstado(estado, usuario){
 //obtener citas aceptadas en 'ENFERMERAS'
 function getAllCitas(){
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch('http://127.0.0.1:5000/api/getCitasAceptadas')
+    fetch('https://application-be-201906576.herokuapp.com/api/getCitasAceptadas')
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -232,7 +232,7 @@ function getCitasDoctor(){
     usuario = sesion['usuario']
     var comp = ''
     var htmlTable = document.getElementById("cuerpoTabla")
-    fetch(`http://127.0.0.1:5000/api/getCitasAceptadas/${usuario}`)
+    fetch(`https://application-be-201906576.herokuapp.com/api/getCitasAceptadas/${usuario}`)
         .then((resp) => resp.json())
         .then(function (response) {
             console.log(response)
@@ -261,7 +261,7 @@ function getCitasDoctor(){
 }
 
 function completarCita(paciente, doctor){
-    fetch('http://127.0.0.1:5000/api/updateEstado', {
+    fetch('https://application-be-201906576.herokuapp.com/api/updateEstado', {
         method: 'post',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
