@@ -14,20 +14,80 @@
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./js/paciente.js"></script>
     <script src="./js/toast.js"></script>
+    <link rel="stylesheet" href="/css/webAdmin.css">
     <title>Document</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-light bg-light">
+<body style="background-image: url(/images/fondo.jpg); background-size: cover; background-repeat: no-repeat;">
+    <nav class="navbar navbar-light" style="margin-bottom: 30px; background-color: rgb(116, 217, 224);">
         <div class="container-fluid">
-            <a class="navbar-brand">Navbar</a>
-            <form class="d-flex">
+            <a class="navbar-brand">Healthy Corp</a>
+            <div class="d-flex">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#loginModal">Ingresar</button>
-            </form>
+            </div>
         </div>
     </nav>
+    <h1 class="text-center" style="color: white; background-color: gray;">Healthy Corp</h1>
+    <div class="row" style="margin: 20px;">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Mision</h5>
+                        </div>
+                        <p>Colaborar para mejorar la salud y la calidad de vida de los ciudadanos, ofertando servicios sanitarios excelentes, con el paciente como centro de nuestra atención, y profesionales altamente cualificados</p>
+                    </div>
+                </div>
+                <div class="list-group" style="margin-top: 20px;">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Datos del estudiante</h5>
+                        </div>
+                        <p>Desarrollador: Herbert Rafael Lacan Hernandez</p>
+                        <p>Identificacion: 201906576</p>
+                    </div>
+                </div>
+                <div class="list-group" style="margin-top: 20px;">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Contactenos</h5>
+                        </div>
+                        <p>Universidad de San Carlos de Guatemala</p>
+                        <p>Facultad de Ingenieria</p>
+                        <p>Telefono: 12345678</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Vision</h5>
+                        </div>
+                        <p>Ser reconocidos como referentes a nivel nacional e internacional, desde la perspectiva asistencial, docente e investigadora.</p>
+                    </div>
+                </div>
+                <div class="list-group" style="margin-top: 20px;">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Medidas de Prevencion</h5>
+                        </div>
+                        <p>Llevar Mascarilla</p>
+                        <p>Lavarse las manos frecuentemente</p>
+                        <p>Mantener Distancia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,61 +121,63 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h4 class="text-center">Iniciar sesion</h4>
+                    <h4 class="text-center">Registro de Paciente</h4>
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha" class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control" id="fecha">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="genero" class="form-label">Genero</label>
+                                    <select id="genero" class="form-select" aria-label="Default select example">
+                                        <option>M</option>
+                                        <option>F</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="username" maxlength="8" autocomplete="off">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="usuarioP" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="usuarioP">
 
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre de Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </div>
-                            <br>
-                            <div class="text-center mb-3">
-                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contrasenaP" class="form-label">contraseña</label>
+                                    <input type="text" class="form-control" id="contrasenaP" maxlength="8"
+                                        autocomplete="off">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">Telefono</label>
+                                    <input type="text" class="form-control" id="telefono">
+                                </div>
+                                <div class="text-center mb-3">
+                                    <button type="submit" class="btn btn-primary" onclick="addPaciente()">Registrarme</button>
+                                    <br>
+                                    <label for="">Ya tienes una cuenta?</label>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                                        data-bs-dismiss="modal">Iniciar
+                                        Sesion</a>
+                                </div>
                                 <br>
-                                <label for="">Ya tienes una cuenta?</label>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
-                                    data-bs-dismiss="modal">Iniciar
-                                    Sesion</a>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="toast" id="EpicToast" role="alert" aria-live="assertive" aria-atomic="true"
@@ -131,4 +193,5 @@
 
     <script src="/js/login.js"></script>
 </body>
+
 </html>
