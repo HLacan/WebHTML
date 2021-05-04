@@ -41,6 +41,7 @@ function login() {
 
             } else if (jsonResponse['res'] == 'no existe') {
                 console.log('no existe')
+                Toasty('no existe')
             }
         }).catch(error => {
             console.log(error)
