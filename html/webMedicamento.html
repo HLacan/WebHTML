@@ -55,7 +55,7 @@
                         </div>
                         <br>
                         <input type="file" id="fileinput" />
-                        <button class="btn btn-success" onclick="cargarPacientes()" type="submit">Cargar</button>
+                        <button class="btn btn-success" onclick="cargarMedicamentos()" type="submit">Cargar</button>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                             <h5 class="mb-1">Generar Reporte PDF</h5>
                         </div>
                         <br>
-                        <button class="btn btn-primary" type="submit" onclick="pdfPacientes()">Generar Reporte</button>
+                        <button class="btn btn-primary" type="submit" onclick="pdfMedicamentos()">Generar Reporte</button>
                     </div>
                 </div>
             </div>
@@ -115,35 +115,20 @@
                                 <input type="text" class="form-control" id="nombre">
                             </div>
                             <div class="mb-3">
-                                <label for="apellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="apellido">
-                            </div>
-                            <div class="mb-3">
-                                <label for="fecha" class="form-label">Fecha de nacimiento</label>
-                                <input type="date" class="form-control" id="fecha">
-                            </div>
-                            <div class="mb-3">
-                                <label for="genero" class="form-label">Genero</label>
-                                <select id="genero" class="form-select" aria-label="Default select example">
-                                    <option>M</option>
-                                    <option>F</option>
-                                </select>
+                                <label for="precio" class="form-label">Precio</label>
+                                <input type="text" class="form-control" id="precio">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="usuario" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" id="usuario">
+                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <input type="text" class="form-control" id="descripcion">
 
                             </div>
                             <div class="mb-3">
-                                <label for="contrasena" class="form-label">contraseña</label>
-                                <input type="email" class="form-control" id="contrasena" maxlength="8"
+                                <label for="cantidad" class="form-label">Cantidad</label>
+                                <input type="text" class="form-control" id="cantidad" maxlength="8"
                                     autocomplete="off">
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefono" class="form-label">Telefono</label>
-                                <input type="email" class="form-control" id="telefono">
                             </div>
                             <br>
                         </div>
