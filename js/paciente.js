@@ -31,6 +31,49 @@ function getPacientes() {
         });
 }
 
+function addPaciente(){
+    nombre = document.getElementById('nombre').value
+    apellido = document.getElementById('apellido').value
+    oldFecha = document.getElementById('fecha').value
+    genero = document.getElementById('genero').value
+    usuario = document.getElementById('usuarioP').value
+    contrasena = document.getElementById('contrasenaP').value
+    telefono = document.getElementById('telefono').value
+    splittedFecha = oldFecha.split('-')
+    newFecha = splittedFecha[2] + '/' + splittedFecha[1] + '/' + splittedFecha[0]
+
+    if(nombre == "" || apellido == "" || oldFecha == "" || genero == "" || usuario == "" || contrasena == ""){
+        alert('vacio')
+    } else {
+        fetch('http://127.0.0.1:5000/api/addPaciente', {
+            method: 'post',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+                'nombre': nombre,
+                'apellido': apellido,
+                'fecha': newFecha,
+                'genero': genero,
+                'usuario': usuario,
+                'contrasena': contrasena,
+                'telefono': telefono
+            })
+        }).then(response => {
+            return response.json();
+
+        }).then(jsonResponse => {
+            console.log(jsonResponse);
+            if (jsonResponse['res'] == 'Usuario ya repetido') {
+                Toasty('repetido')
+            } else {
+                console.log('toast')
+                Toasty('agregado')
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+}
+
 function cargarPacientes() {
     var input = document.getElementById('fileinput');
     if (!input.files[0]) {
