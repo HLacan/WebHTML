@@ -12,6 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="../css/webAdmin.css">
 <script src="../js/toast.js"></script>
+<script src="../js/receta.js"></script>
 <script src="../js/citaPaciente.js"></script>
     <title>Document</title>
 </head>
@@ -51,6 +52,47 @@
 
                 </tbody>
             </table>
+        </div>
+    </div>
+    <!--MODAL FACTURA-->
+    <div class="modal fade" id="receta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Generar Factura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="fecha">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="doctor" class="form-label">Doctor</label>
+                                <input type="text" class="form-control" id="doctor" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="padecimiento" class="form-label">Padecimiento</label>
+                                <input type="text" class="form-control" id="padecimiento">
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <input type="text" class="form-control" id="descripcion">
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div id="footerModalReceta" class="modal-footer">
+                </div>
+            </div>
         </div>
     </div>
     <script src="../js/sesion.js"></script>
