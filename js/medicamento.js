@@ -144,7 +144,7 @@ function validarMedicamento(oldNombre) {
             .then(function (response) {
                 console.log(response)
                 if (response['res'] == 'libre') {
-                    //updatePaciente(oldUsuario, newUsuario)
+                    updateMedicamento(oldNombre, newNombre)
                     cerrarModal('#modificar')
                     Toasty('modificar')
                 } else {
@@ -157,10 +157,57 @@ function validarMedicamento(oldNombre) {
             });
     } else if (oldNombre == newNombre) {
         console.log('modificando el mismo medicamento')
-        //updateEnfermera(oldUsuario, newUsuario)
+        updateMedicamento(oldNombre, newNombre)
         cerrarModal('#modificar')
         Toasty('modificar')
     }
+}
+
+function updateMedicamento(oldNombre, newNombre) {
+    nombre = document.getElementById('nombre').value
+    precio = document.getElementById('precio').value
+    descripcion = document.getElementById('descripcion').value
+    cantidad = document.getElementById('cantidad').value
+
+    fetch('http://127.0.0.1:5000/api/updateMedicamento', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+            'oldNombre': oldNombre,
+            'newNombre': newNombre,
+            'precio': precio,
+            'descripcion': descripcion,
+            'cantidad': cantidad,
+        })
+    }).then(response => {
+        return response.json();
+    }).then(jsonResponse => {
+        console.log(jsonResponse)
+        console.log('medicamento actualizado')
+        getMedicamentos()
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function opcionesDelete(nombre) {
+    document.getElementById('eliminarFooter').innerHTML = `
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn btn-primary" onclick="deleteMedicamento('${nombre}')">Eliminar</button>`
+}
+
+function deleteMedicamento(nombre) {
+    fetch(`http://127.0.0.1:5000/api/deleteMedicamento/${nombre}`)
+        .then((resp) => resp.json())
+        .then(function (response) {
+            console.log(response)
+            cerrarModal('#eliminar')
+            Toasty('eliminar')
+            getMedicamento()
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 function cerrarModal(modal) {
